@@ -51,6 +51,8 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+# Binary Files
+src/main
 
 # Vim
 *.swp
