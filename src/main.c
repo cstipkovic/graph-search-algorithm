@@ -7,6 +7,23 @@
 #define CINZA  1
 #define PRETO  2
 
+#include<conio.h>
+#include<process.h>
+
+struct q_point
+{
+  int ele;
+  struct q_point* n;
+};
+ 
+struct q_point *f_ptr = NULL;
+int e_que(void);
+void ENQUEUE(int);
+int DEQUEUE(void);
+void show_ele();
+
+
+
 typedef struct aresta{
 	int nome;
 	struct aresta *prox;
@@ -109,8 +126,10 @@ int isConexo(Vertice G[], int ordem) {
 	return 1;
 }
 
-void BFS(Vertice G[], int ordem){
+void BFS(Vertice G[], int ordem, int vertice_inicio){
 	int i;
+	Vertice *H;
+	criaGrafo(&H, ordem);
 	for (i=0; i<ordem; i++){
 		G[i].cor = BRANCO;
 		//printf("\n    V%d: ", i);
@@ -118,11 +137,85 @@ void BFS(Vertice G[], int ordem){
 		for( ; aux != NULL; aux= aux->prox)
 		;//	printf("%3d", aux->nome);
 	}
+	i = 0;
+	H[i].cor = CINZA;
+	H[i].d = 0;
+	ENQUEUE(H[i].nome);
+	while (e_que()!=1)
+	   G[i].nome = 
+	  
 }
+
+/* Function to check if the queue is empty*/
+int e_que(void)
+{
+  if(f_ptr==NULL)
+     return 1;
+     
+  return 0;
+}
+/* Function to add an element to the queue*/
+void ENQUEUE(int ele)
+{
+  struct q_point *queue = (struct q_point*)malloc(sizeof(struct q_point));
+  queue->ele = ele;
+  queue->n = NULL;
+  if(f_ptr==NULL)
+    f_ptr = queue;
+  else
+  {
+    struct q_point* ptr;
+    ptr = f_ptr;
+    for(ptr=f_ptr ;ptr->n!=NULL; ptr=ptr->n);
+      ptr->n = queue;
+  }
+}
+ 
+/* Function to remove an element from the queue*/
+int DEQUEUE()
+{
+  struct q_point* queue=NULL;
+  if(e_que()==false)
+  {
+    int j = f_ptr->ele;
+    queue=f_ptr;
+    f_ptr = f_ptr->n;
+    free (queue);
+    return j;
+  }
+  else
+  {
+    printf("\n\tQueue is empty.");
+    return -9999;
+  }
+}
+/* Function to display the queue*/
+void show_ele()
+{
+  struct q_point *ptr=NULL;
+  ptr=f_ptr;
+  if(e_que())
+  {
+    printf("\n\tQUEUE is Empty.");
+    return;
+  }
+  else
+  {
+    printf("\n\tElements present in Queue are:\n\t");
+    while(ptr!=NULL)
+    {
+      printf("%d\t",ptr->ele);
+      ptr=ptr->n;
+    }
+  }
+}
+
+
+
 
 int main(int argc, char *argv[]) {
 	Vertice *G;
-	int ordemG = 6,i,v1, v2, orientado;
+	int ordemG = 6, i, v1, v2, orientado;
     char escolha;
 		
 	criaGrafo(&G, ordemG);
@@ -176,3 +269,4 @@ int main(int argc, char *argv[]) {
     system("PAUSE");
 	return 0;
 }
+
